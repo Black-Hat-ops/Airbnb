@@ -11,28 +11,25 @@ const Header = () => {
 
   return (
     <>
-      <nav className="bg-gray-100 max-w-full h-28 shadow-md sticky top-0 ">
-        <div className=" align-items-center flex p-2 items-center justify-between ml-10 relative">
-          <img className="w-1/16  " src={logo} alt="" />
+      {/* Desktop Navigation Bar */}
+      <nav>
+        <div className="hidden md:bg-gray-100 md:min-w-full md:h-26 shadow-lg  md:flex md:items-center md:justify-between  md:relative">
+          <Link to="/"><img className="w-34 h-12 ml-10" src={logo} alt="" /></Link>
           <div className=" align-items-center flex relative ">
-            <input
-              type="text"
-              className="w-120 border-2 border-gray-300 rounded-4xl p-2 h-16 px-12 hover:shadow-md"
-              placeholder="Any where | Any Time | add Guest"
-            />
-            <button className="absolute rounded-full bg-red-500 text-white w-12 h-12 mt-2 right-1/32">
+            <input type="text" className="border-2 w-120 border-gray-300 rounded-4xl h-16 px-16 hover:shadow-md" placeholder="Any where | Any Time | add Guest" />
+            <button className="absolute rounded-full bg-red-500 text-white w-13 h-13 right-1/42  my-1.5 ">
               <i class="ri-search-line"></i>
             </button>
           </div>
-          <div className="mr-8 ">
-            <ul className="flex gap-3 align-items-center justify-center">
+          <div>
+            <ul className="flex gap-3 items-center justify-between ">
               <li><button className="hover:bg-gray-200 rounded-full font-bold text-md p-2">Become the Host</button></li>
               <li><button className="hover:bg-gray-300 rounded-full p-2  "><i class="ri-global-line"></i></button></li>
               <li><button className="hover:bg-gray-300 rounded-full p-2 "
                 onClick={() => setpopUp(!popUp)}
               ><i class="ri-menu-line"></i></button></li>
               <li>{popUp &&
-                <div className="bg-white h-80 w-60 absolute top-[80%] right-[5%] border-1 rounded-md">
+                <div className="bg-white h-80 w-60 absolute top-[80%] right-[5%] border-1 rounded-md z-1">
                   <ul className="p-5 " >
                     <li className="py-2 border-b-1">Help Center</li>
                     <li className="py-2 border-b-1">Become a Host<p className="text-sm text-center">
@@ -49,11 +46,32 @@ const Header = () => {
               </li>
             </ul>
           </div>
-
         </div>
       </nav>
-      <div>
+
+      {/* Mobile Navigation Bar */}
+
+      <nav >
+      <div className="relative">
+        <div className=" md:hidden max-w-full h-38 bg-white items-center  justify-around z-1 sticky shadow-md ">
+          <button className="bg-gray-100 w-[90%] h-16 shadow-md p-4 mt-5 rounded-4xl hover:cursor-pointer ">            
+            <i class="ri-search-line"></i> Start your search
+          </button>
+          <ul className="flex mx-25 mt-5 text-4xl justify-between ">
+            <li className=" hover:border-b-4 " ><Link><i class="ri-home-4-fill"></i></Link></li>
+            <li className=" hover:border-b-4 " ><Link><i class="ri-flask-fill"></i></Link></li>
+            <li className=" hover:border-b-4 " ><Link><i class="ri-service-bell-fill"></i></Link></li>
+          </ul>
+        </div>
+        <div className="md:hidden w-full h-18 bg-white  items-center  justify-around z-1 fixed bottom-0 shadow-top-md ">
+          <ul className="flex text-4xl justify-between mx-25 my-3" >
+            <li className=" hover:text-rose-600 hover:cursor-pointer" ><i class="ri-search-line"></i></li>
+            <li className=" hover:text-rose-600 hover:cursor-pointer "><i class="ri-heart-3-line"></i></li>
+            <li className=" hover:text-rose-600 hover:cursor-pointer"><i class="ri-account-circle-line"></i></li>
+          </ul>
+        </div>
       </div>
+      </nav>
     </>
 
   );

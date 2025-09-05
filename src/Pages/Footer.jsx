@@ -2,9 +2,9 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 ">
+    <footer className="bg-gray-100 mb-0 ">
       <div className="">
-        <div className="flex p-10  justify-between" > 
+        <div className="flex flex-col space-y-6 p-10 md:flex-row   justify-between" > 
             <div className="text-left leading-8">
                 <h4 className="font-bold">Support</h4>
                 <ul>
@@ -44,7 +44,7 @@ const Footer = () => {
                 </ul>
             </div>
         </div>
-        <div className="flex justify-between border-t-1">
+        <div className="hidden  justify-between border-t-1">
             <div className="p-10  justify-between ">
                 <ul className="flex gap-4 ">
                     <li>© 2025 Airbnb, Inc</li>
