@@ -1,72 +1,66 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import { Link } from "react-router-dom";
+import axios from 'axios';
+import { authDataContext } from "../context/AuthContext";
 
 
 const SignupPage = () => {
   
-  const [number, setNumber] = useState("");
-  console.log(number)
+  const {serverUrl} = useContext(authDataContext)
+  console.log( serverUrl)
+  const [firstname , setFirstname] = useState("");
+  const [lastname , setlastname] = useState("");
+  const [email , setEmail] = useState("");
+  const [password , setPassword] = useState("");
 
-  const SubmitHandler = (e) => {
-    e.preventDefault()
-    //alert("Phone Number: " + number)
+  const [show , setShow] = useState(false)
+
+  const SubmitHandler = async (e) => {
+    try {
+      e.preventDefault()
+      const result = await axios.post("http://localhost:4000/api/auth/signup",{
+        firstname,
+        lastname ,
+        email,
+        password
+
+      },{withCredentials : true})
+      
+    } catch (error) {
+      console.log(error)
+    }
+    
   }
 
   return (
     <>
-    {/* Signup Page 
-    <form onSubmit={SubmitHandler}>
 
-         <div className="min-h-screen items-center justify-center flex " >
-        <div className="border-1 rounded-md shadow-lg max-w-lg  p-4">
-            <p className="font-bold text-lg p-4 mb-5 border-b-1">Login or Sign up</p>
-            <div className="m-9 text-left align-items-left">
-                <h1 className="font-bold text-2xl   mb-5">Welcome to Airbnb</h1>
-                <select className="w-106 border-1 rounded-md h-12 p-2" >
-                    <option label="Select your country"></option>
-                    <option value="+92">PK (+92)</option>
-                    <option value="+44">UK (+44)</option>
-                    <option value="+1">USA (+1)</option>
-                    <option value="+91">India (+91)</option>
-                </select>
-                <input type='number' placeholder="Phone Number" className="border-1 rounded-md p-3  w-106 h-12 mb-4" 
-                  value={number} onChange={(e) => setNumber(e.target.value)}
-                 />
-                <p className="mb-5">We’ll call or text you to confirm your number. Standard message and data rates apply. Privacy Policy</p>
-                <button type="Submit" className="bg-red-400 w-106 text-white rounded-md p-2 hover:bg-red-500">Continue</button>
-            </div>
-            div className="items-center m-9 text-left flex"> 
-    <label htmlFor="FirstName" className="mr-4 font-bold text-2xl text-red-500">First Name</label>
-    <input type="text" id="FirstName" placeholder="Enter text" className="border-1 rounded-md p-2 w-60" />
-  </div>
-  <div className="items-center m-9 text-left flex"> 
-    <label htmlFor="LastName" className="mr-4 font-bold text-lg text-red-500">Last Name</label>
-    <input type="text" id="LastName" placeholder="Enter text" className="border-1 rounded-md p-2 w-55" />
-  </div>
-  <div className="items-center m-9 text-left flex"> 
-    <label htmlFor="FirstName" className="mr-4 font-bold text-2xl text-red-500">FirstName</label>
-    <input type="text" id="FirstName" placeholder="Enter text" className="border-1 rounded-md p-2 w-full" />
-  </div>
-  <div className="items-center m-9 text-left flex"> 
-    <label htmlFor="FirstName" className="mr-4 font-bold text-2xl text-red-500">FirstName</label>
-    <input type="text" id="FirstName" placeholder="Enter text" className="border-1 rounded-md p-2 w-full" />
-  </div>
-        </div>
-    </div>
-    </form>*/}
 <div className="min-h-screen md:max-h-full bg-gray-200 items-center justify-center px-5 md:px-2  flex">
-<form action="" className="  w-full md:max-w-4xl bg-white p-8 md:p-20 rounded-lg shadow-lg ">
+<form action="" onSubmit={(SubmitHandler)} className="  w-full md:max-w-4xl bg-white p-8 md:p-20 rounded-lg shadow-lg ">
   <div>
     <h2 className="text-3xl font-bold mb-6 text-center md:text-4xl md:mb-10 border-gray-200 border-b-2 pb-10  ">Sign Up</h2>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 mt-2 md:mb-10 ">
-      <input type="text" name="" id="" placeholder="First Name" className=" w-full border-1 rounded-md py-2 px-3 md:px-2 md:w-full " />
-      <input type="text" name="" id="" placeholder="Last Name" className=" w-full border-1 rounded-md py-2 px-3 md:px-2 md:w-full " />
+      <input type="text" name="" id="" placeholder="First Name" className=" w-full border-1 rounded-md py-2 px-3 md:px-2 md:w-full " 
+       value={firstname}
+       onChange={(e) => setFirstname(e.target.value)}
+      />
+      <input type="text" name="" id="" placeholder="Last Name" className=" w-full border-1 rounded-md py-2 px-3 md:px-2 md:w-full " 
+       value={lastname}
+       onChange={(e) => setlastname(e.target.value)}
+      />
 
     </div>
     <div className="grid grid-cols-1 md:grid-cols-2 md:gap-5 gap-4 mt-4 md:mb-10">
-      <input type="text" name="" id="" placeholder="Email" className=" w-full border-1 rounded-md py-2 px-3 md:px-2 md:w-full" />
-      <input type="password" name="" id="" placeholder="Password" className=" w-full border-1 rounded-md py-2 px-3 md:px-2 md:w-full" />
-
+      <input type="text" name="" id="" placeholder="Email" className=" w-full border-1 rounded-md py-2 px-3 md:px-2 md:w-full" 
+       value={email}
+       onChange={(e) => setEmail(e.target.value)}
+      />
+      <input type={show ? "text" : "password"} name="" id="" placeholder="Password" className=" w-full border-1 rounded-md py-2 px-3 md:px-2 md:w-full" 
+       value={password}
+       onChange={(e) => setPassword(e.target.value)}
+      />
+      {!show && <div className="w-[25px] md:text-2xl absolute text-lg top-[80%] right-[12%] md:top-[65%] md:right-[27%]"> <i class="ri-eye-close-fill " onClick={() => setShow(prev => !prev) }></i></div> }
+      {show && <div className="w-[25px]  md:text-2xl absolute text-lg top-[80%] right-[12%] md:top-[65%] md:right-[27%]"> <i class="ri-eye-fill" onClick={() => setShow(prev => !prev) }></i></div> }
     </div>
 
     <div>
