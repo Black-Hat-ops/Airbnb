@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useContext } from "react";
 import { Link , useNavigate} from "react-router-dom";
+import { listingDataContext } from "../context/ListingContext";
 
 const ListingPage = () => {
     let {title , setTitle ,description ,setDescription ,
@@ -12,8 +14,9 @@ const ListingPage = () => {
         rent ,setRent ,
         city ,setCity ,
         landmark , setLandmark,
-        category ,setCategory
-     } = useState()
+        category ,setCategory,
+        adding, setadding
+     } = useContext(listingDataContext)
 
      const navigate = useNavigate()
 

@@ -1,13 +1,38 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigation } from "react-router-dom";
 import logo from "../assets/airbnb-logo.png"
 import 'remixicon/fonts/remixicon.css'
+import axios from "axios";
+import { userDataContext } from '../context/UserContext'
+import { listingDataContext } from "../context/ListingContext";
 
 const Header = () => {
 
   const [popUp, setpopUp] = useState(false)
+  const {userData ,setUserData} = useContext(userDataContext)
+  console.log(userData)
+  //const navigate = useNavigation();
+  const [category , setCategory] = useState()
+  const {listingData , setListingData} = useContext(listingDataContext)
 
+  const handleLogOut = async () => {
+    setpopUp(!popUp)
+    try {
+      const result =await axios.post( "http://localhost:4000/api/auth/logOut" , {
+        withcredentials : true
+      }) 
+      console.log(result)
+      setUserData(null)
+    } catch (error) {
+      console.log("this is an error" , error)
+    }
+  }
+  const handleCategory = (category) => {
+    setCategory(category)
+    listingData.filter((list)=> list.category == category )
+  }
+ 
 
   return (
     <>
@@ -23,23 +48,49 @@ const Header = () => {
           </div>
           <div>
             <ul className="flex gap-3 items-center justify-between ">
-              <li><button className="hover:bg-gray-200 rounded-full font-bold text-md p-2">Become the Host</button></li>
-              <li><button className="hover:bg-gray-300 rounded-full p-2  "><i class="ri-global-line"></i></button></li>
+              {userData == null && (
+  <>
+    <li>
+      <button className="hover:bg-gray-200 rounded-full font-bold text-md p-2">
+        Become a Host
+      </button>
+    </li>
+    <li>
+      <button className="hover:bg-gray-300 rounded-full p-2">
+        <i className="ri-global-line"></i>
+      </button>
+    </li>
+  </>
+)}
+
+{userData != null && (
+  <>
+    <li>
+      <button className="hover:bg-gray-200 rounded-full font-bold text-md p-2">
+         <span> {userData?.email}</span>
+      </button>
+    </li>
+    <li>
+      <button className="hover:bg-gray-300 rounded-full p-2">
+        <i className="ri-global-line"></i>
+      </button>
+    </li>
+  </>
+)}
               <li><button className="hover:bg-gray-300 rounded-full p-2 "
                 onClick={() => setpopUp(!popUp)}
               ><i class="ri-menu-line"></i></button></li>
               <li>{popUp &&
-                <div className="bg-white h-80 w-60 absolute top-[80%] right-[5%] border-1 rounded-md z-1">
-                  <ul className="p-5 " >
-                    <li className="py-2 border-b-1 text-left">Log Out</li>
+                <div className="bg-white h-70 w-60 absolute top-[80%] right-[5%] border-1 rounded-md z-1">
+                  <ul className="p-4 " >
+                    {userData != null &&<li className="py-2 border-b-1 text-left hover:cursor-pointer" onClick={(handleLogOut)  }>Log Out</li>}
                     <li className="py-2 border-b-1 text-left">Become a Host<p className="text-sm  text-left">
                       is easy to get started and earn extra income.
                     </p></li>
-                    <li className="py-2 text-left ">List your Home</li>
+                    <li className="py-2 text-left " onClick={() => setpopUp(!popUp)}><Link to='/listing'> List your Home</Link></li>
                     <li className="py-2 text-left ">My Listing</li>
-                    <li className="py-2 border-b-1 text-left">Help</li>
-                    <li className="p-2 text-center "><Link to="/signup" onClick={() => setpopUp(!popUp)}>Login or Sign up</Link></li>
-                  </ul>
+                    <li className="py-2  text-left">Help</li>
+                    {userData == null && <li className="p-2 text-center border-t-1 "><Link to="/signup" onClick={() => setpopUp(!popUp)}>Login or Sign up</Link></li>}</ul>
                 </div>
               }
               </li>
